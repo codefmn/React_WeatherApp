@@ -63,7 +63,7 @@ export default class WeatherChannel extends Component {
       fetchForecast(this.state.currentCity,(forecast)=>{
         const data = forecast.map(item=>{
           return{
-            weekday: item.weekday_short,
+            weekday: item.date.weekday_short,
             high: item.high.celsius,
             low: item.low.celsius,
             icon: item.icon_url
