@@ -13,7 +13,7 @@ function DailyItem(props) {
 }
 
 export default function Forecaster(props) {
-    return props.days.map(
+    return props.forecast.map(
         (day, i) => <DailyItem key={`${day.weekday}_${i}`} day={day} />
     )
 }
