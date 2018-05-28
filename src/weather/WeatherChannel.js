@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 
+import Toolbar from './Toolbar';
 import CityCondition from './CityCondition';
 import Forecaster    from './Forecaster';
-import { fetchConditionData, fetchForecast } from '../api/weather';
+import { fetchCondition, fetchForecast } from '../api/weather';
 
 // responsible for maintain necessary data (from API response) in the state
 // pass them down to child 
@@ -28,7 +29,7 @@ export default class WeatherChannel extends Component {
     render() {
       return (
         <main>
-          {/* <Toolbar /> */}
+          <Toolbar />
           <section id="left">
             <CityCondition city={this.state.condition.city}
             temp={this.state.condition.temp}
@@ -41,35 +42,48 @@ export default class WeatherChannel extends Component {
       )
     }
 
-    // handleCondition(data){
-    //   console.log(data);
-    //   const condition ={
-    //     city: data.display_location.full,
-    //     weather: data.weather,
-    //     temp: data.temp_c
-    //   }
-    //   this.setState({condition});
-    // }
+    handleCondition(data){
+      const condition ={
+        city: data.display_location.full,
+        weather: data.weather,
+        temp: data.temp_c
+      }
+      this.setState({condition});
+    }
+
+    handleForecast(forecast){
+      const data = forecast.map(item=>{
+        return{
+          weekday: item.date.weekday_short,
+          high: item.high.celsius,
+          low: item.low.celsius,
+          icon: item.icon_url
+        }
+      })
+      this.setState({forecast:data});
+    }
 
     componentDidMount(){
-      fetchConditionData(this.state.currentCity,(data)=>{
-        const condition ={
-          city: data.display_location.full,
-          weather: data.weather,
-          temp: data.temp_c
-        }
-        this.setState({condition});
-    });
-      fetchForecast(this.state.currentCity,(forecast)=>{
-        const data = forecast.map(item=>{
-          return{
-            weekday: item.date.weekday_short,
-            high: item.high.celsius,
-            low: item.low.celsius,
-            icon: item.icon_url
-          }
-        })
-        this.setState({forecast:data});
-      });
+      fetchCondition(this.state.currentCity)
+      .then(data=>this.handleCondition(data))
+      .catch(error=>{alert(error.message)});
+
+      fetchForecast(this.state.currentCity)
+      .then(forecast=>this.handleForecast(forecast))
+      .catch(error=>{alert(error.message)});
+
+      // fetchCondition(this.state.currentCity,(data)=>this.handleCondition(data));
+      // fetchForecast(this.state.currentCity,(forecast)=>{
+      //   const data = forecast.map(item=>{
+      //     return{
+      //       weekday: item.date.weekday_short,
+      //       high: item.high.celsius,
+      //       low: item.low.celsius,
+      //       icon: item.icon_url
+      //     }
+      //   })
+      //   this.setState({forecast:data});
+      // });
+
     }
 }
