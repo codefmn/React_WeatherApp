@@ -29,7 +29,9 @@ export default class WeatherChannel extends Component {
     render() {
       return (
         <main>
-          <Toolbar />
+          <Toolbar currentCity={this.state.currentCity} 
+            handleCity={this.handleCity.bind(this)} 
+            handleSubmit={this.handleSubmit.bind(this)}/>
           <section id="left">
             <CityCondition city={this.state.condition.city}
             temp={this.state.condition.temp}
@@ -40,6 +42,17 @@ export default class WeatherChannel extends Component {
           </section>
         </main>
       )
+    }
+
+    handleCity(e){
+      this.setState({currentCity:e.target.value});
+      console.log(this.state.currentCity);
+    }
+
+    handleSubmit(e){
+      e.preventDefault();
+      console.log(this.state.currentCity);
+      this.componentDidMount();
     }
 
     handleCondition(data){

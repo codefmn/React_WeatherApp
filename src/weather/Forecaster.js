@@ -5,7 +5,7 @@ function DailyItem(props) {
     return(
         <div className="item">
         <span>{day.weekday}</span>
-        <span><img src={day.icon}/></span>
+        <span><img alt="weather" src={day.icon}/></span>
         <span>{day.high}</span>
         <span>{day.low}</span>
         </div>
