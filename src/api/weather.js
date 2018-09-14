@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const CONDITION_BASE_URL="http://api.wunderground.com/api/f029e46fd0232d12/geolookup/conditions/q/Australia/";
-const FORECAST_BASE_URL="http://api.wunderground.com/api/f029e46fd0232d12/geolookup/forecast10day/q/Australia/";
+const CONDITION_BASE_URL="https://api.wunderground.com/api/f029e46fd0232d12/geolookup/conditions/q/Australia/";
+const FORECAST_BASE_URL="https://api.wunderground.com/api/f029e46fd0232d12/geolookup/forecast10day/q/Australia/";
 
 export function fetchCondition(city){
     return axios.get(`${CONDITION_BASE_URL}${city}.json`)
